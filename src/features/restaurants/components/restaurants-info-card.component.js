@@ -24,7 +24,8 @@ const RestaurantInfoCard = ({ restaurant = {} }) => {
   </Card>
 };
 const Title = styled(Text)`
-  padding : 16px 0;
-  color : ${props => props.theme.colors.text.error}
+  padding : ${props => props.theme.sizes[1]} 0;
+  color : ${props => props.theme.colors.text.primary};
+  font-family: ${props => props.theme.fonts.body}};
 `
 export default RestaurantInfoCard
