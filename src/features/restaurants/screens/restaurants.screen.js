@@ -1,51 +1,34 @@
 import React from 'react'
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, MD2Colors } from 'react-native-paper'
 import styled from 'styled-components/native'
 import { Spacer } from '../../../components/spacer/spacer.component'
+import { useRestaurantsContext } from '../../../services/restaurants/restaurants.context'
 import RestaurantInfoCard from '../components/restaurants-info-card.component'
 import Search from '../components/search.component'
 
 const RestaurantScreen = () => {
-  const DATA = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "First Item",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d73",
-      title: "Third Item",
-    }, 
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d74",
-      title: "Third Item",
-    }, 
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d76",
-      title: "Third Item",
-    }
-  ];
+  const { restaurants, isLoading } = useRestaurantsContext()
   return (
     <>
-      <SafeAreaView style={{flex : 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <RestaurantSearch>
           <Search />
         </RestaurantSearch>
-        <RestaurantInfo style={{flex : 1}}>
+        {!isLoading ? <RestaurantInfo style={{ flex: 1 }}>
           <FlatList
-            renderItem={RestaurantInfoCard}
-            data={DATA}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{padding : 16}}
+            data={restaurants}
+            keyExtractor={(item) => item.placeId}
+            contentContainerStyle={{ padding: 16 }}
+            renderItem={({ item }) => {
+              return (
+                <Spacer position="bottom" size="large">
+                  <RestaurantInfoCard restaurant={item} />
+                </Spacer>
+              );
+            }}
           />
-        </RestaurantInfo>
+        </RestaurantInfo> : <ActivityIndicator animating={true} color={MD2Colors.red800} size="large" />}
       </SafeAreaView>
       <StatusBar style="auto" />
     </>
