@@ -21,37 +21,39 @@ const RestaurantInfoCard = ({ restaurant = {} }) => {
   } = restaurant;
   // tao array
   const ratingArray = Array.from(new Array(Math.ceil(rating)))
-  return <Card>
-    <Card.Content>
-      <Card.Cover source={{ uri: photos[0] }} />
-      <Spacer position="top" size="large">
-        <Title>{name}</Title>
-      </Spacer>
-      <Row>
-        <Spacer position="top" size="medium">
-          <Rating>
-            {
-              ratingArray ?
-                ratingArray.map((_, index) => <SvgXml key={index} xml={star} width={20} height={20}></SvgXml>) : null
-            }
-          </Rating>
+  return <Spacer position="bottom" size="large">
+    <Card>
+      <Card.Content>
+        <Card.Cover source={{ uri: photos[0] }} />
+        <Spacer position="top" size="large">
+          <Title>{name}</Title>
         </Spacer>
+        <Row>
+          <Spacer position="top" size="medium">
+            <Rating>
+              {
+                ratingArray ?
+                  ratingArray.map((_, index) => <SvgXml key={index} xml={star} width={20} height={20}></SvgXml>) : null
+              }
+            </Rating>
+          </Spacer>
+          <Spacer position="top" size="medium">
+            {!isOpenNow && (<Row>
+              <Spacer position="right" size="medium">
+                <Icon source={{ uri: icon }} />
+              </Spacer>
+              <Text variant="error">ĐÓNG CỬA</Text>
+            </Row>)}
+          </Spacer>
+          {isOpenNow && <SvgXml xml={open} width={30} height={30}></SvgXml>}
+        </Row>
         <Spacer position="top" size="medium">
-          {!isOpenNow && (<Row>
-            <Spacer position="right" size="medium">
-              <Icon source={{ uri: icon }} />
-            </Spacer>
-            <Text variant="error">ĐÓNG CỬA</Text>
-          </Row>)}
+          <Address>
+            {address}
+          </Address>
         </Spacer>
-        {isOpenNow && <SvgXml xml={open} width={30} height={30}></SvgXml>}
-      </Row>
-      <Spacer position="top" size="medium">
-        <Address>
-          {address}
-        </Address>
-      </Spacer>
-    </Card.Content>
-  </Card>
+      </Card.Content>
+    </Card>
+  </Spacer>
 };
 export default RestaurantInfoCard
