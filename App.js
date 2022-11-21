@@ -6,7 +6,6 @@ import MapScreen from './src/features/restaurants/screens/map.screen'
 import RestaurantScreen from './src/features/restaurants/screens/restaurants.screen'
 import SettingScreen from './src/features/restaurants/screens/setting.screen'
 import { theme } from './src/infrastructure/theme'
-import { restaurantsRequest } from './src/services/restaurants/restaurants.service'
 import RestaurantsContextProvider from './src/services/restaurants/restaurants.context'
 import LocationContextProvider from './src/services/location/location.context'
 const Tab = createBottomTabNavigator()
@@ -14,8 +13,8 @@ const Tab = createBottomTabNavigator()
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <RestaurantsContextProvider>
-        <LocationContextProvider>
+      <LocationContextProvider>
+        <RestaurantsContextProvider>
           <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
@@ -40,8 +39,8 @@ const App = () => {
             <Tab.Screen name="Map" component={MapScreen} />
             <Tab.Screen name="Setting" component={SettingScreen} />
           </Tab.Navigator>
-        </LocationContextProvider>
-      </RestaurantsContextProvider>
+        </RestaurantsContextProvider>
+      </LocationContextProvider>
     </ThemeProvider>
   )
 }

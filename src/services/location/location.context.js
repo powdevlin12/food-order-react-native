@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useReducer, useContext } from "react";
+import React, { useReducer, useContext, useEffect } from "react";
 import LocationReducer from "./location.reducer";
 
 import { locationRequest, locationTransform } from "./location.service";
 
-export const LocationContext = React.createContext();
+const LocationContext = React.createContext();
 
 const initialState = {
-  keyword: "san francisco",
+  keyword: "San Francisco",
   location: null,
   isLoading: false
 }
 
 const LocationContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(LocationReducer, initialState)
-  const onSearch = (searchKeyword = "Antwerp") => {
+
+  const onSearch = (searchKeyword) => {
     console.log(searchKeyword);
     dispatch({ type: 'SET_LOADING', payload: true })
     dispatch({ type: 'SET_KEYWORD', payload: searchKeyword })
-
+    // neu khong nhap thi khong lam gi ca
+    if (!searchKeyword.length) {
+      return;
+    }
     locationRequest(searchKeyword.toLowerCase())
       .then(locationTransform)
       .then((result) => {
@@ -32,8 +36,8 @@ const LocationContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    onSearch();
-  }, []);
+    onSearch(state.keyword)
+  }, [])
 
   return (
     <LocationContext.Provider

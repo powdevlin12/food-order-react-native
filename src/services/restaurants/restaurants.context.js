@@ -1,5 +1,6 @@
 import camelize from "camelize";
-import React, { useState, createContext, useEffect, useMemo, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { useLocationContext } from "../location/location.context";
 import { mockImages } from "./mock";
 import RestaurantReducer from "./restaurants.reducer";
 
@@ -13,18 +14,18 @@ const initialState = {
 }
 const RestaurantsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(RestaurantReducer, initialState)
-
-  const getRestaurant = () => {
+  const { location } = useLocationContext()
+  const getRestaurant = (loc) => {
     dispatch({ type: 'GET_LOADING', payload: true })
     setTimeout(() => {
-      restaurantsRequest().then(data => {
+      restaurantsRequest(loc).then(data => {
         const mappedResults = data.results.map((restaurant) => {
           restaurant.photos = restaurant.photos.map((p) => {
             return mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
           });
-
           return {
             ...restaurant,
+            address: restaurant.vicinity,
             isOpenNow: restaurant.opening_hours && restaurant.opening_hours.open_now,
             isClosedTemporarily: restaurant.business_status === "CLOSED_TEMPORARILY",
           };
@@ -40,8 +41,12 @@ const RestaurantsContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    getRestaurant()
-  }, [])
+    if (location) {
+      const locationString = `${location.lat},${location.lng}`;
+      console.log(locationString)
+      getRestaurant(locationString);
+    }
+  }, [location]);
 
   return (
     <RestaurantsContext.Provider
