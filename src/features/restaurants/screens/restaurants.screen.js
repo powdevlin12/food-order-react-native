@@ -1,19 +1,34 @@
 import React from 'react'
-import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, MD2Colors } from 'react-native-paper'
 import styled from 'styled-components/native'
+import { Spacer } from '../../../components/spacer/spacer.component'
+import { useRestaurantsContext } from '../../../services/restaurants/restaurants.context'
 import RestaurantInfoCard from '../components/restaurants-info-card.component'
 import Search from '../components/search.component'
 
 const RestaurantScreen = () => {
+  const { restaurants, isLoading } = useRestaurantsContext()
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
         <RestaurantSearch>
           <Search />
         </RestaurantSearch>
-        <RestaurantInfo>
-          <RestaurantInfoCard />
-        </RestaurantInfo>
+        {!isLoading ? <RestaurantInfo style={{ flex: 1 }}>
+          <FlatList
+            data={restaurants}
+            keyExtractor={(item) => item.placeId}
+            contentContainerStyle={{ padding: 16 }}
+            renderItem={({ item }) => {
+              return (
+                <Spacer position="bottom" size="large">
+                  <RestaurantInfoCard restaurant={item} />
+                </Spacer>
+              );
+            }}
+          />
+        </RestaurantInfo> : <ActivityIndicator animating={true} color={MD2Colors.red800} size="large" />}
       </SafeAreaView>
       <StatusBar style="auto" />
     </>
@@ -26,8 +41,7 @@ const RestaurantSearch = styled.View`
   width : 100%;
 `
 const RestaurantInfo = styled.View`
-  height: 100%;
-  padding: ${props => props.theme.space[3]};
   width: 100%;
+  height: 100%;
 `
 export default RestaurantScreen

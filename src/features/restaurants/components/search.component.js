@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Searchbar } from 'react-native-paper'
 import styled from 'styled-components'
+import { useLocationContext } from '../../../services/location/location.context'
 
 const Search = () => {
-  const [search, setSearch] = useState("")
+  const {keyword : kw, search} = useLocationContext()
+  const [keyword, setKeyword] = useState("")
 
-  const onChangeText = (query) => {
-    setSearch(query)
-  }
   return (
     <ViewCustom>
-      <Searchbar placeholder='Search'
-        onChangeText={onChangeText}
-        value={search}
+      <Searchbar placeholder={kw}
+        onChangeText={(text) => setKeyword(text)}
+        value={keyword}
+        onSubmitEditing={() => search(keyword)}
         icon="cards-heart-outline"
       />
     </ViewCustom>
