@@ -4,6 +4,7 @@ import MapScreen from '../../features/restaurants/screens/map.screen'
 import RestaurantScreen from '../../features/restaurants/screens/restaurants.screen'
 import SettingScreen from '../../features/restaurants/screens/setting.screen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { RestaurantStack } from './restaurant.navigator'
 const Tab = createBottomTabNavigator()
 
 const AppNavigator = () => {
@@ -25,9 +26,11 @@ const AppNavigator = () => {
       },
       tabBarActiveTintColor: 'tomato',
       tabBarInactiveTintColor: 'gray',
-    })}
+      headerShown: false
+    })
+  }
   >
-    <Tab.Screen name="Sichain" component={RestaurantScreen} />
+    <Tab.Screen name="Sichain" component={RestaurantStack} />
     <Tab.Screen name="Map" component={MapScreen} />
     <Tab.Screen name="Setting" component={SettingScreen} />
   </Tab.Navigator>
