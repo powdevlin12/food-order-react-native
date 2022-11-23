@@ -26,7 +26,9 @@ const AppNavigator = () => {
       },
       tabBarActiveTintColor: 'tomato',
       tabBarInactiveTintColor: 'gray',
-    })}
+      headerShown: false
+    })
+  }
   >
     <Tab.Screen name="Sichain" component={RestaurantStack} />
     <Tab.Screen name="Map" component={MapScreen} />
