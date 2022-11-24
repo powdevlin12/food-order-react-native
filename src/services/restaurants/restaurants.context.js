@@ -37,7 +37,7 @@ const RestaurantsContextProvider = ({ children }) => {
           dispatch({ type: 'GET_RESTAURANT', payload: err });
           dispatch({ type: 'GET_LOADING', payload: false })
         })
-    }, 2000)
+    }, 500)
   }
 
   useEffect(() => {
