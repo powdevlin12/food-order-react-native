@@ -12,7 +12,7 @@ export const RestaurantStack = () => {
   return (
     <Restaurant.Navigator screenOptions={screenOptions}>
       <Restaurant.Screen name="Restaurant" component={RestaurantScreen} />
-      <Restaurant.Screen name="RestaurantDetail" component={RestaurantDeatail} options={{...TransitionPresets.SlideFromRightIOS}}/>
+      <Restaurant.Screen name="RestaurantDetail" component={RestaurantDeatail} options={{...TransitionPresets.ModalPresentationIOS}}/>
     </Restaurant.Navigator>
   );
 }
